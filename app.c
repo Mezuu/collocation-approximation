@@ -222,7 +222,7 @@ float *getDifferentiatePoints(float points[], float x, int n, float h, int nRef,
     {
         printf("[WARNING] Titik referensi yang bisa digunakan hanya 2, 3, atau 5, Anda memasukkan %d", nRef);
     }
-    else if (xpos == 0 || xpos >= n)
+    else if ((xpos == 0 || xpos >= n) && (nRef != 3 && nRef != 5))
     {
         printf("[WARNING] Titik yang dicari (%.3f) kurang dari titik kolokasi minimum (%.3f) atau lebih dari sama dengan titik kolokasi maksimum (%.3f)", x, points[0], points[2 * (n - 1)]);
     }
