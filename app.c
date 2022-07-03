@@ -385,11 +385,25 @@ float *getIntegralPoints(float points[], int n, float h, int *glob)
     return usedPoints;
 }
 
-float simpsonApproximation(float usedPoints[], float h)
+float simpsonApproximation(float usedPoints[])
 {
     float result;
     result = (usedPoints[1] + 4 * usedPoints[3] + usedPoints[5]) * (usedPoints[4] - usedPoints[0]) / 6;
     return result;
+}
+
+void printPolynomial(float a[], float c[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("(%.3f)", a[i]);
+        for (int j = 0; j < i; j++)
+        {
+            printf("(x-(%.3f))", c[j]);
+        }
+        if (i != n - 1)
+            printf(" + ");
+    }
 }
 
 int main()
@@ -433,16 +447,7 @@ int main()
             scanf("%d", &nRef);
             float **res = collocationPolynomial(points, nPoints, nRef);
             printf("\nAproksimasi polinomial kolokasi\n==========\nTitik yang digunakan : %d\nHasil polinomial : p(x) = ", nRef);
-            for (int i = 0; i < nRef; i++)
-            {
-                printf("(%.3f)", res[0][i]);
-                for (int j = 0; j < i; j++)
-                {
-                    printf("(x-(%.3f))", res[1][j]);
-                }
-                if (i != nRef - 1)
-                    printf(" + ");
-            }
+            printPolynomial(res[0], res[1], nRef);
             printf("\np(%.3f) = %.3f", x, newtonPolynomial(res[0], res[1], x, nPoints));
         }
         else if (select == 2)
@@ -497,12 +502,12 @@ int main()
             {
                 printf("\n[WARNING] Tidak dapat melanjutkan dengan menggunakan formula aproksimasi, beralih dengan cara membangun polinomial kolokasi...");
                 float **res = collocationPolynomial(sortedPoints, nPoints, nPoints);
-                printf("\nHasil aproksimasi : %.3f", integral(res[0], res[1], sortedPoints[0], sortedPoints[2 * nPoints - 1], h, nPoints));
+                printf("\nHasil aproksimasi : %.3f", integral(res[0], res[1], sortedPoints[0], sortedPoints[2 * (nPoints - 1)], h, nPoints));
             }
             else
             {
                 printf("\nGunakan metode Simpson");
-                printf("\nHasil aproksimasi : %.3f", simpsonApproximation(usedPoints, h));
+                printf("\nHasil aproksimasi : %.3f", simpsonApproximation(usedPoints));
             }
         }
         printf("\nMasukkan apapun untuk melanjutkan...");
