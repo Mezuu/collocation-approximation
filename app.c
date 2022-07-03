@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 /*
     newtonPolynomial
@@ -163,13 +164,13 @@ float *sort(float points[], int n)
     Masukan adalah berupa array 1 dimensi yaitu titik - titik kolokasi yang sudah disort berdasarkan nilai x nya;
 */
 
-int xPos(float points[], int xa, int n)
+int xPos(float points[], float xa, int n)
 {
     int pos = 0;
 
     for (int i = 0; i < n; i++)
     {
-        if (xa >= points[i * 2])
+        if (xa + 0.001 >= points[i * 2])
         {
             pos = i + 1;
         }
@@ -189,7 +190,7 @@ float getYFromX(float points[], float x, int n, int *glob)
 {
     for (int i = 0; i < n; i++)
     {
-        if (points[i * 2] == x)
+        if (fabsf(points[i * 2] - x) < 0.001)
             return points[i * 2 + 1];
     }
     printf("\n[WARNING] Nilai p(%.3f) tidak ditemukan pada titik kolokasi yang diberikan", x);
